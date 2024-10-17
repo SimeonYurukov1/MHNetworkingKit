@@ -13,22 +13,35 @@ extension URLRequest {
     ///HTTP method
     ///
     ///[Online Reference](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
-    public struct HTTPMethod: RawRepresentable, ExpressibleByStringLiteral {
+    public struct HTTPMethod: RawRepresentable, ExpressibleByStringLiteral, Sendable {
         
         public var rawValue: String
         
         public init(rawValue: String) { self.rawValue = rawValue }
         public init(stringLiteral value: String) { self.rawValue = value }
+        public init(method: Method) { self.rawValue = method.rawValue }
         
-        public static var get: Self = "GET"
-        public static var put: Self = "PUT"
-        public static var post: Self = "POST"
-        public static var delete: Self = "DELETE"
-        public static var head: Self = "HEAD"
-        public static var options: Self = "OPTIONS"
-        public static var trace: Self = "TRACE"
-        public static var connect: Self = "CONNECT"
-    }
+        public enum Method: String, Sendable {
+                case get = "GET"
+                case put = "PUT"
+                case post = "POST"
+                case delete = "DELETE"
+                case head = "HEAD"
+                case options = "OPTIONS"
+                case trace = "TRACE"
+                case connect = "CONNECT"
+            }
+        
+        public static var get: Self { .init(method: .get) }
+        public static var put: Self { .init(method: .put) }
+        public static var post: Self { .init(method: .post) }
+        public static var delete: Self { .init(method: .delete) }
+        public static var head: Self { .init(method: .head) }
+        public static var options: Self { .init(method: .options) }
+        public static var trace: Self { .init(method: .trace) }
+        public static var connect: Self { .init(method: .connect) }
+        
+        }
     
     public var method: HTTPMethod? {
         

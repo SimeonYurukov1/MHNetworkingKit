@@ -13,7 +13,7 @@ import Foundation
  For more information on supported types - see `LossyDecodable`.
  */
 @propertyWrapper
-public struct LossyDecoded<T: LossyDecodable> {
+public struct LossyDecoded<T: LossyDecodable & Sendable>: Sendable {
 
     public var wrappedValue: T
 

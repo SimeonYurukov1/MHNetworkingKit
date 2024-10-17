@@ -9,13 +9,13 @@
 import Foundation
 
 ///A type that can be formatted from/to ISO8601 format. Used for conditional implementation of ISO8601Formatted property wrapper in order to support both Date and Date?
-@available(iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0, *)
-public protocol ISO8601Formattable {
+@available(iOS 10.0, macOS 10.15, tvOS 10.0, watchOS 3.0, *)
+public protocol ISO8601Formattable: Sendable {
     
     associatedtype Formatter
     associatedtype FormattedValue
     
-    static var defaultFormatter: Formatter { get set }
+    static var defaultFormatter: Formatter { get }
     
     init?(fromISO8601FormattedValue value: FormattedValue, using formatter: Formatter)
     init?(fromISO8601FormattedValue value: FormattedValue)
@@ -25,7 +25,7 @@ public protocol ISO8601Formattable {
 }
 
 ///Default convenience implementation
-@available(iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0, *)
+@available(iOS 10.0, macOS 10.15, tvOS 10.0, watchOS 3.0, *)
 extension ISO8601Formattable {
     
     public init?(fromISO8601FormattedValue value: FormattedValue) {
@@ -40,10 +40,12 @@ extension ISO8601Formattable {
 }
 
 ///Makes Date conforming to ISO8601Formattable
-@available(iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0, *)
+@available(iOS 10.0, macOS 10.15, tvOS 10.0, watchOS 3.0, *)
 extension Date: ISO8601Formattable {
     
-    public static var defaultFormatter: ISO8601DateFormatter = .init()
+    public static var defaultFormatter: ISO8601DateFormatter {
+        return .init()
+    }
     
     public init?(fromISO8601FormattedValue value: String, using formatter: ISO8601DateFormatter) {
         
@@ -62,13 +64,11 @@ extension Date: ISO8601Formattable {
 }
 
 ///Makes Date? conforming to ISO8601Formattable
-@available(iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0, *)
+@available(iOS 10.0, macOS 10.15, tvOS 10.0, watchOS 3.0, *)
 extension Optional: ISO8601Formattable where Wrapped == Date {
     
     public static var defaultFormatter: ISO8601DateFormatter {
-        
         get { Wrapped.defaultFormatter }
-        set { Wrapped.defaultFormatter = newValue }
     }
     
     public init?(fromISO8601FormattedValue value: String?, using formatter: ISO8601DateFormatter) {
@@ -92,13 +92,12 @@ extension Optional: ISO8601Formattable where Wrapped == Date {
     }
 }
 
-@available(iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0, *)
+@available(iOS 10.0, macOS 10.15, tvOS 10.0, watchOS 3.0, *)
 extension Array: ISO8601Formattable where Element == Date {
     
     public static var defaultFormatter: ISO8601DateFormatter {
         
         get { Element.defaultFormatter }
-        set { Element.defaultFormatter = newValue }
     }
     
     public init?(fromISO8601FormattedValue value: [String], using formatter: ISO8601DateFormatter) {

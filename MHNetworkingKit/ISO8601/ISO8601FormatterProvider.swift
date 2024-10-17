@@ -15,7 +15,7 @@ import Foundation
     2. Override the `formatter` class var and return instnace of your custom formatter
     3. Provide you custom formatter, eg `@ISO8601Formatted(formatterProvider: MyCustomFormatterProvider.self) var myValue: Date`
  */
-@available(iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0, *)
+@available(iOS 10.0, macOS 10.15, tvOS 10.0, watchOS 3.0, *)
 open class ISO8601FormatterProvider<Value: ISO8601Formattable> {
     
     open class var formatter: Value.Formatter { Value.defaultFormatter }

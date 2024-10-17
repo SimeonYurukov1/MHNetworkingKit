@@ -9,7 +9,7 @@
 import Foundation
 
 ///A type that can represent any single coding key dynamically
-public struct DynamicCodingKey: CodingKey {
+public struct DynamicCodingKey: CodingKey, Sendable {
     
     public let stringValue: String
     public let intValue: Int?
